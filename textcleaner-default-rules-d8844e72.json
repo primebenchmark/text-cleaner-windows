@@ -7,6 +7,5 @@
   { "Find": "*", "ReplaceWith": "" },
   { "Find": "-", "ReplaceWith": "" },
   { "Find": "#", "ReplaceWith": "❱" },
-  { "Find": "|", "ReplaceWith": "❱" },
-  { "Find": "+", "ReplaceWith": "=" }
+  { "Find": "|", "ReplaceWith": "❱" }
 ]

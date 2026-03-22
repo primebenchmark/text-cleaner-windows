@@ -69,8 +69,12 @@ namespace TextCleaner
         private async System.Threading.Tasks.Task UpdateRulesFromRemoteAsync()
         {
             bool updated = await _settings.UpdateRulesFromRemoteAsync();
+            RulesStatusDot.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+
             if (updated)
             {
+                RulesStatusDot.Fill = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+                    Windows.UI.Color.FromArgb(255, 34, 197, 94));
                 RulesStatusText.Text = "Updated successfully";
                 RulesStatusText.Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
                     Windows.UI.Color.FromArgb(255, 34, 197, 94));
@@ -82,9 +86,11 @@ namespace TextCleaner
             }
             else
             {
+                RulesStatusDot.Fill = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+                    Windows.UI.Color.FromArgb(255, 59, 130, 246));
                 RulesStatusText.Text = "Local";
                 RulesStatusText.Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
-                    Windows.UI.Color.FromArgb(255, 156, 163, 175));
+                    Windows.UI.Color.FromArgb(255, 59, 130, 246));
             }
         }
 
