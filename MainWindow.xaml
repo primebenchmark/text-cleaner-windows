@@ -90,16 +90,23 @@
             </Grid.ColumnDefinitions>
 
             <!-- Theme toggle - bottom LEFT -->
-            <ToggleSwitch x:Name="ThemeToggle"
-                          Grid.Column="0"
-                          OnContent="Dark"
-                          OffContent="Light"
-                          VerticalAlignment="Center"
-                          Toggled="ThemeToggle_Toggled"/>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <ToggleSwitch x:Name="ThemeToggle"
+                              OnContent="Dark"
+                              OffContent="Light"
+                              VerticalAlignment="Center"
+                              Toggled="ThemeToggle_Toggled"/>
+                <TextBlock x:Name="RulesStatusText"
+                           VerticalAlignment="Center"
+                           FontSize="11"
+                           Opacity="0.8"
+                           Margin="-8,0,0,0"/>
+            </StackPanel>
 
-            <!-- Clear - centered -->
+            <!-- Clear - truly centered by spanning all columns -->
             <Button x:Name="ClearBtn"
-                    Grid.Column="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     Content="Clear Text"
                     HorizontalAlignment="Center"
                     Width="160"

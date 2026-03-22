@@ -1,0 +1,12 @@
+[
+  { "Find": "&nbsp;", "ReplaceWith": "" },
+  { "Find": "\u00A0", "ReplaceWith": "" },
+  { "Find": "$rightarrow$", "ReplaceWith": "➜" },
+  { "Find": "`", "ReplaceWith": "" },
+  { "Find": "\\", "ReplaceWith": "" },
+  { "Find": "*", "ReplaceWith": "" },
+  { "Find": "-", "ReplaceWith": "" },
+  { "Find": "#", "ReplaceWith": "❱" },
+  { "Find": "|", "ReplaceWith": "❱" },
+  { "Find": "+", "ReplaceWith": "=" }
+]

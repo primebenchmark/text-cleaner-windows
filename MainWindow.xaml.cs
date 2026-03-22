@@ -61,6 +61,31 @@ namespace TextCleaner
             };
             _clipboardTimer.Tick += ClipboardTimer_Tick;
             _clipboardTimer.Start();
+
+            // Fetch latest rules from remote on startup (fire-and-forget)
+            _ = UpdateRulesFromRemoteAsync();
+        }
+
+        private async System.Threading.Tasks.Task UpdateRulesFromRemoteAsync()
+        {
+            bool updated = await _settings.UpdateRulesFromRemoteAsync();
+            if (updated)
+            {
+                RulesStatusText.Text = "Updated successfully";
+                RulesStatusText.Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+                    Windows.UI.Color.FromArgb(255, 34, 197, 94));
+
+                if (!string.IsNullOrEmpty(InputBox.Text))
+                {
+                    OutputBox.Text = CleanText(InputBox.Text, _settings.Rules);
+                }
+            }
+            else
+            {
+                RulesStatusText.Text = "Local";
+                RulesStatusText.Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+                    Windows.UI.Color.FromArgb(255, 156, 163, 175));
+            }
         }
 
         private void ApplyTheme(bool isDark)
@@ -264,7 +289,9 @@ namespace TextCleaner
 
             void RefreshList()
             {
-                rulesListView.ItemsSource = _settings.Rules.Select(r => r.ToString()).ToList();
+                var removeRules = _settings.Rules.Where(r => string.IsNullOrEmpty(r.ReplaceWith)).Select(r => r.ToString()).OrderBy(s => s);
+                var replaceRules = _settings.Rules.Where(r => !string.IsNullOrEmpty(r.ReplaceWith)).Select(r => r.ToString()).OrderBy(s => s);
+                rulesListView.ItemsSource = removeRules.Concat(replaceRules).ToList();
             }
 
             rulesListView.SelectionChanged += (s, args) =>

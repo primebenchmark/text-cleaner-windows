@@ -15,7 +15,7 @@ namespace TextCleaner
 
             return string.IsNullOrEmpty(ReplaceWith)
                 ? $"Remove \"{findDisplay}\""
-                : $"\"{findDisplay}\" → \"{ReplaceWith}\"";
+                : $"Replace \"{findDisplay}\" → \"{ReplaceWith}\"";
         }
     }
 }
