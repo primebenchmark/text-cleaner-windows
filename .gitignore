@@ -1,0 +1,32 @@
+# Build output
+bin/
+obj/
+
+# Publish output
+publish/
+
+# Installer output
+installer/
+redist/
+
+# Visual Studio
+.vs/
+*.user
+
+# User-specific files
+*.suo
+*.userosscache
+*.userprefs
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
