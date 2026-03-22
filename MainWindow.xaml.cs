@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI;
 
 namespace TextCleaner
 {
@@ -62,6 +64,38 @@ namespace TextCleaner
             if (Content is FrameworkElement root)
             {
                 root.RequestedTheme = isDark ? ElementTheme.Dark : ElementTheme.Light;
+            }
+
+            // Customize title bar colors to match the theme
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                var titleBar = AppWindow.TitleBar;
+                if (isDark)
+                {
+                    titleBar.BackgroundColor = ColorHelper.FromArgb(255, 32, 32, 32);
+                    titleBar.ForegroundColor = Colors.White;
+                    titleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 32, 32, 32);
+                    titleBar.InactiveForegroundColor = ColorHelper.FromArgb(255, 153, 153, 153);
+                    titleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 32, 32, 32);
+                    titleBar.ButtonForegroundColor = Colors.White;
+                    titleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 51, 51, 51);
+                    titleBar.ButtonHoverForegroundColor = Colors.White;
+                    titleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 32, 32, 32);
+                    titleBar.ButtonInactiveForegroundColor = ColorHelper.FromArgb(255, 153, 153, 153);
+                }
+                else
+                {
+                    titleBar.BackgroundColor = ColorHelper.FromArgb(255, 243, 243, 243);
+                    titleBar.ForegroundColor = Colors.Black;
+                    titleBar.InactiveBackgroundColor = ColorHelper.FromArgb(255, 243, 243, 243);
+                    titleBar.InactiveForegroundColor = ColorHelper.FromArgb(255, 153, 153, 153);
+                    titleBar.ButtonBackgroundColor = ColorHelper.FromArgb(255, 243, 243, 243);
+                    titleBar.ButtonForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverBackgroundColor = ColorHelper.FromArgb(255, 229, 229, 229);
+                    titleBar.ButtonHoverForegroundColor = Colors.Black;
+                    titleBar.ButtonInactiveBackgroundColor = ColorHelper.FromArgb(255, 243, 243, 243);
+                    titleBar.ButtonInactiveForegroundColor = ColorHelper.FromArgb(255, 153, 153, 153);
+                }
             }
         }
 
