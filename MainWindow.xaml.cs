@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.UI;
@@ -17,6 +18,9 @@ namespace TextCleaner
         private string _lastClipboardText = string.Empty;
         private readonly DispatcherTimer _clipboardTimer;
         private AppSettings _settings;
+
+        // Guard against memory exhaustion from extremely large clipboard content
+        private const int MaxInputLength = 5_000_000;
 
         public MainWindow()
         {
@@ -373,11 +377,14 @@ namespace TextCleaner
             try
             {
                 string text = await dataPackageView.GetTextAsync();
+                if (text.Length > MaxInputLength)
+                    text = text[..MaxInputLength];
                 InputBox.Text = text;
             }
             catch (Exception ex)
             {
-                await ShowErrorDialog("Clipboard Error", $"Unable to read from clipboard.\n\n{ex.Message}");
+                Debug.WriteLine($"Clipboard read error: {ex}");
+                await ShowErrorDialog("Clipboard Error", "Unable to read from clipboard.");
             }
         }
 
@@ -391,7 +398,8 @@ namespace TextCleaner
             }
             catch (Exception ex)
             {
-                _ = ShowErrorDialog("Clipboard Error", $"Unable to copy to clipboard.\n\n{ex.Message}");
+                Debug.WriteLine($"Clipboard copy error: {ex}");
+                _ = ShowErrorDialog("Clipboard Error", "Unable to copy to clipboard.");
             }
         }
 
@@ -426,7 +434,7 @@ namespace TextCleaner
                         Clipboard.SetContent(dataPackage);
                         _lastClipboardText = processed;
                     }
-                    catch { /* best-effort auto-copy */ }
+                    catch (Exception ex) { Debug.WriteLine($"Auto-copy error: {ex.Message}"); }
                 }
             }
         }
@@ -443,10 +451,16 @@ namespace TextCleaner
                 if (text == _lastClipboardText)
                     return;
 
+                if (text.Length > MaxInputLength)
+                    text = text[..MaxInputLength];
+
                 _lastClipboardText = text;
                 InputBox.Text = text;
             }
-            catch { /* ignore clipboard access errors in timer */ }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Clipboard timer error: {ex.Message}");
+            }
         }
 
         private async System.Threading.Tasks.Task ShowErrorDialog(string title, string message)
